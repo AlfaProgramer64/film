@@ -1,0 +1,15 @@
+/* app/globals.css */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+select {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  width: 200px;
+}
