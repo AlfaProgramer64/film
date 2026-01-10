@@ -12,7 +12,7 @@ export default function Home() {
   const [trTarih, setTrTarih] = useState("");
 
   useEffect(() => {
-    // Tarihi Türkçeleştiren Fonksiyon
+  
     const bugun = new Date();
     const formatliTarih = bugun.toLocaleDateString('tr-TR', {
       day: 'numeric',
@@ -72,7 +72,7 @@ export default function Home() {
       <footer style={{ marginTop: '60px', textAlign: 'center' }}>
         <p style={{ opacity: '0.5', fontSize: '0.8rem', color: '#fff' }}>Diyanet İşleri Başkanlığı uyumlu vakitler.</p>
         <p style={{ marginTop: '10px', fontSize: '1.1rem', fontWeight: '600', color: '#fbbf24', letterSpacing: '1px' }}>
-          Yapan: Yunus Emre Demirtaş
+          Yunus Emre Demirtaş
         </p>
       </footer>
     </div>
