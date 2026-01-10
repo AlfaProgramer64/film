@@ -2,12 +2,14 @@
 import { useState, useEffect } from "react";
 
 const sehirler = [
-  "Adana", "Adiyaman", "Afyonkarahisar", "Agri", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin", "Aydin", "Balikesir", "Bartin", "Batman", "Bayburt", "Bilecik", "Bingol", "Bitlis", "Bolu", "Burdur", "Bursa", "Canakkale", "Cankiri", "Corum", "Denizli", "Diyarbakir", "Duzce", "Edirne", "Elazig", "Erzincan", "Erzurum", "Eskisehir", "Gaziantep", "Giresun", "Gumushane", "Hakkari", "Hatay", "Igdir", "Isparta", "Istanbul", "Izmir", "Kahramanmaras", "Karabuk", "Karaman", "Kars", "Kastamonu", "Kayseri", "Kilis", "Kirikkale", "Kirklareli", "Kirsehir", "Kocaeli", "Konya", "Kutahya", "Malatya", "Manisa", "Mardin", "Mersin", "Mugla", "Mus", "Nevsehir", "Nigde", "Ordu", "Osmaniye", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Sanliurfa", "Sirnak", "Tekirdag", "Tokat", "Trabzon", "Tunceli", "Usak", "Van", "Yalova", "Yozgat", "Zonguldak"
+  "Istanbul", "Ankara", "Izmir", "Bursa", "Adana", "Antalya", "Konya", "Gaziantep", "Sanliurfa", "Kocaeli"
+  // Buraya daha fazla şehir ekleyebilirsin
 ];
 
 export default function Home() {
   const [data, setData] = useState(null);
   const [city, setCity] = useState("Istanbul");
+  const [date, setDate] = useState("");
 
   useEffect(() => {
     async function getVakitler() {
@@ -15,6 +17,7 @@ export default function Home() {
         const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=Turkey&method=13`);
         const result = await res.json();
         setData(result.data.timings);
+        setDate(result.data.date.readable);
       } catch (error) {
         console.error("Hata:", error);
       }
@@ -23,60 +26,89 @@ export default function Home() {
   }, [city]);
 
   return (
-    <main style={{ maxWidth: '900px', margin: '0 auto', padding: '60px 20px', textAlign: 'center' }}>
-      <header style={{ marginBottom: '50px' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '10px', color: '#fbbf24' }}>
-          Vakit Namazı
+    <div style={{ width: '100%', maxWidth: '1000px', padding: '20px' }}>
+      {/* Üst Başlık Bölümü */}
+      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <h1 style={{ fontSize: '3.5rem', fontWeight: '800', letterSpacing: '-1px', marginBottom: '10px', background: 'linear-gradient(to bottom, #fff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          NAMAZ VAKİTLERİ
         </h1>
-        <p style={{ opacity: 0.8, marginBottom: '30px' }}>Şehrinizi seçerek vakitleri takip edebilirsiniz.</p>
+        <p style={{ color: '#fbbf24', fontSize: '1.2rem', fontWeight: '300', marginBottom: '30px' }}>{date}</p>
         
-        <select onChange={(e) => setCity(e.target.value)} value={city}>
-          {sehirler.map((s) => (
-            <option key={s} value={s}>{s}</option>
-          ))}
-        </select>
-      </header>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <select onChange={(e) => setCity(e.target.value)} value={city}>
+            {sehirler.map((s) => (
+              <option key={s} value={s}>{s.toUpperCase()}</option>
+            ))}
+          </select>
+        </div>
+      </div>
 
+      {/* Ana Tablo / Grid Yapısı */}
       {data ? (
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', 
-          gap: '20px'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+          gap: '25px',
+          padding: '10px'
         }}>
-          <VakitKart isim="İMSAK" saat={data.Fajr} />
-          <VakitKart isim="GÜNEŞ" saat={data.Sunrise} />
-          <VakitKart isim="ÖĞLE" saat={data.Dhuhr} />
-          <VakitKart isim="İKİNDİ" saat={data.Asr} />
-          <VakitKart isim="AKŞAM" saat={data.Maghrib} />
-          <VakitKart isim="YATSI" saat={data.Isha} />
+          <VakitKart isim="İMSAK" saat={data.Fajr} ikon="🌙" />
+          <VakitKart isim="GÜNEŞ" saat={data.Sunrise} ikon="☀️" />
+          <VakitKart isim="ÖĞLE" saat={data.Dhuhr} ikon="🏙️" />
+          <VakitKart isim="İKİNDİ" saat={data.Asr} ikon="🌇" />
+          <VakitKart isim="AKŞAM" saat={data.Maghrib} ikon="🌆" />
+          <VakitKart isim="YATSI" saat={data.Isha} ikon="🌌" />
         </div>
       ) : (
-        <div className="loader">Yükleniyor...</div>
+        <div style={{ textAlign: 'center', fontSize: '1.5rem', color: '#94a3b8' }}>Veriler yükleniyor...</div>
       )}
 
-      <footer style={{ marginTop: '60px', opacity: 0.5, fontSize: '0.9rem' }}>
-        © 2026 Namaz Vakitleri Uygulaması
+      {/* Alt Bilgi */}
+      <footer style={{ marginTop: '50px', textAlign: 'center', opacity: '0.4', fontSize: '0.8rem' }}>
+        T.C. Diyanet İşleri Başkanlığı uyumlu vakitler kullanılır.
       </footer>
-    </main>
+    </div>
   );
 }
 
-function VakitKart({ isim, saat }) {
+function VakitKart({ isim, saat, ikon }) {
   return (
-    <div style={{ 
-      background: 'rgba(255, 255, 255, 0.05)', 
-      backdropFilter: 'blur(12px)',
+    <div className="card" style={{ 
+      background: 'rgba(255, 255, 255, 0.03)', 
+      backdropFilter: 'blur(20px)',
       border: '1px solid rgba(255, 255, 255, 0.1)',
-      padding: '30px 20px', 
-      borderRadius: '20px',
-      transition: 'transform 0.3s ease',
-      cursor: 'default'
+      borderRadius: '30px',
+      padding: '40px 30px',
+      textAlign: 'center',
+      position: 'relative',
+      overflow: 'hidden',
+      transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+      cursor: 'pointer'
     }}
-    onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-10px)'}
-    onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+    onMouseOver={(e) => {
+      e.currentTarget.style.transform = 'scale(1.05)';
+      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.07)';
+      e.currentTarget.style.borderColor = '#fbbf24';
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.transform = 'scale(1)';
+      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
+      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+    }}
     >
-      <h3 style={{ margin: '0 0 15px 0', fontSize: '0.8rem', letterSpacing: '2px', color: '#94a3b8' }}>{isim}</h3>
-      <p style={{ margin: 0, fontSize: '1.8rem', fontWeight: 'bold', color: '#fff' }}>{saat}</p>
+      <div style={{ fontSize: '2.5rem', marginBottom: '15px' }}>{ikon}</div>
+      <h3 style={{ fontSize: '0.9rem', color: '#94a3b8', letterSpacing: '4px', marginBottom: '10px' }}>{isim}</h3>
+      <div style={{ fontSize: '2.5rem', fontWeight: '700', color: '#fff' }}>{saat}</div>
+      
+      {/* Süsleme için parıltı efekti */}
+      <div style={{ 
+        position: 'absolute', 
+        top: '-50%', 
+        left: '-50%', 
+        width: '200%', 
+        height: '200%', 
+        background: 'radial-gradient(circle, rgba(251,191,36,0.05) 0%, transparent 70%)',
+        pointerEvents: 'none'
+      }}></div>
     </div>
   );
 }
