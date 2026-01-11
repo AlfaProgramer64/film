@@ -2,7 +2,7 @@
 
 Bu proje, öğrencilerin React bileşen yapısını, API entegrasyonunu ve dinamik veri yönetimini öğrenmesi amacıyla geliştirilmiş bir **Namaz Vakitleri** uygulamasıdır. Kullanıcılar Türkiye'deki farklı şehirleri seçerek o güne ait vakit bilgilerine anlık olarak ulaşabilirler.
 
-![Uygulama Ekran Görüntüsü](1.png) ## 🚀 Özellikler
+![Uygulama Ekran Görüntüsü](resim/ekrangoruntusu.png) ## 🚀 Özellikler
 
 * **Dinamik API Entegrasyonu:** Aladhan API kullanılarak veriler anlık çekilir.
 * **Şehir Seçimi:** Kullanıcı dilediği şehri seçerek verileri güncelleyebilir.
