@@ -53,7 +53,6 @@ Projeyi yerel bilgisayarınızda çalıştırmak için aşağıdaki adımları i
 
 ## 🔗 Kullanılan Kaynaklar
 - API Linki: [Aladhan API](https://api.aladhan.com/v1/timingsByCity)
-- Tasarım İlhamı: Modern Dashboard UI
 
 ---
-**Geliştiren:** [Yunus Emre Demirtaş]
+**Geliştiren:** Yunus Emre Demirtaş
