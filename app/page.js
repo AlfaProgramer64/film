@@ -1,63 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-
-// --- BİLEŞEN 1: HEADER ---
-const Header = ({ trTarih }) => (
-  <header style={{ textAlign: 'center', marginBottom: '50px' }}>
-    <h1 style={{ fontSize: '3.5rem', fontWeight: '800', marginBottom: '5px', background: 'linear-gradient(to bottom, #fff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-      NAMAZ VAKİTLERİ
-    </h1>
-    <p style={{ color: '#fbbf24', fontSize: '1.3rem', fontWeight: '400' }}>{trTarih}</p>
-  </header>
-);
-
-// --- BİLEŞEN 2: CONTENT (Verilerin Listelendiği Bölüm) ---
-const Content = ({ data, loading, error, city, setCity, sehirler }) => {
-  return (
-    <main>
-      <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-        <select onChange={(e) => setCity(e.target.value)} value={city}>
-          {sehirler.map((s) => (
-            <option key={s} value={s}>{s.toUpperCase()}</option>
-          ))}
-        </select>
-      </div>
-
-      {loading && <div style={{ textAlign: 'center' }}>Yükleniyor...</div>}
-      {error && <div style={{ textAlign: 'center', color: '#ff4444' }}>Hata: {error}</div>}
-
-      {data && !loading && !error && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '25px' }}>
-          <VakitKart isim="İMSAK" saat={data.Fajr} ikon="🌙" />
-          <VakitKart isim="GÜNEŞ" saat={data.Sunrise} ikon="☀️" />
-          <VakitKart isim="ÖĞLE" saat={data.Dhuhr} ikon="🏙️" />
-          <VakitKart isim="İKİNDİ" saat={data.Asr} ikon="🌇" />
-          <VakitKart isim="AKŞAM" saat={data.Maghrib} ikon="🌆" />
-          <VakitKart isim="YATSI" saat={data.Isha} ikon="🌌" />
-        </div>
-      )}
-    </main>
-  );
-};
-
-// --- BİLEŞEN 3: FOOTER ---
-const Footer = ({ isim }) => (
-  <footer style={{ marginTop: '60px', textAlign: 'center' }}>
-    <p style={{ opacity: '0.5', fontSize: '0.8rem' }}>Diyanet İşleri Başkanlığı uyumlu vakitler.</p>
-    <p style={{ marginTop: '10px', fontSize: '1.1rem', fontWeight: '600', color: '#fbbf24' }}>{isim}</p>
-  </footer>
-);
-
-// Yardımcı Küçük Bileşen
-function VakitKart({ isim, saat, ikon }) {
-  return (
-    <div className="card" style={{ background: 'rgba(255, 255, 255, 0.03)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '30px', padding: '40px 30px', textAlign: 'center' }}>
-      <div style={{ fontSize: '2.5rem', marginBottom: '15px' }}>{ikon}</div>
-      <h3 style={{ fontSize: '0.8rem', color: '#94a3b8', letterSpacing: '3px' }}>{isim}</h3>
-      <div style={{ fontSize: '2.8rem', fontWeight: '700' }}>{saat}</div>
-    </div>
-  );
-}
+import Header from "./components/Header";
+import Content from "./components/Content";
+import Footer from "./components/Footer";
 
 const sehirler = ["Istanbul", "Ankara", "Izmir", "Bursa", "Adana", "Antalya", "Konya", "Gaziantep"];
 
@@ -91,7 +36,10 @@ export default function Home() {
 
   return (
     <div style={{ width: '100%', maxWidth: '1000px', padding: '20px' }}>
+      {/* Header Bileşeni */}
       <Header trTarih={trTarih} />
+      
+      {/* Content Bileşeni */}
       <Content 
         data={data} 
         loading={loading} 
@@ -100,6 +48,8 @@ export default function Home() {
         setCity={setCity} 
         sehirler={sehirler} 
       />
+      
+      {/* Footer Bileşeni */}
       <Footer isim="Yunus Emre Demirtaş" />
     </div>
   );
